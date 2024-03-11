@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample Page</title>
+</head>
+<body>
+    <button id="fetchButton">Fetch Data</button>
+
+    <script>
+        document.getElementById("fetchButton").addEventListener("click", () => {
+            fetch("https://2de3-2001-b011-3815-3979-a83d-fe17-7e11-7864.ngrok-free.app", {
+                method: "get",
+                headers: new Headers({
+                    "ngrok-skip-browser-warning": "true",
+                }),
+            })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
+        });
+    </script>
+</body>
+</html>

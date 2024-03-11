@@ -1,0 +1,56 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<!-- 台灣繁體中文 -->
+<html lang="zh-TW">
+<head>
+    <!-- Unicode字符集 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+    <title>倉管系統-註冊畫面</title>
+
+</head>
+<body>
+
+    <div class="Home" >
+      <img class="Picture1" src="{% static 'images/picture_1.png' %}" />
+
+        <button id="return_login_button" >返回登入</button>
+        <button id="apply_register_button" >申請註冊</button>
+
+        <button id="togglePassword">
+          <img id="eyeIcon" src="{% static 'images/eye-slash-solid.svg' %}" >
+        </button>
+
+        <div class="input_create_user_pos" >
+          <div class="input_label" >新增帳號：</div>
+            <input type="text" class="input_text" placeholder="請輸入新增帳號">
+        </div>
+
+        <div class="input_create_password_pos" >
+          <div class="input_label" >新增密碼：</div>
+            <input type="password" id="password" class="input_text" placeholder="請輸入新增密碼">
+        </div>
+
+        <div class="input_check_password_pos" >
+          <div class="input_label" >確認密碼：</div>
+            <input type="password" id="check_password"class="input_text" placeholder="請輸入確認密碼">
+        </div>
+
+    </div>
+
+    <script>
+        const eyeSolidPath = "{% static 'images/eye-solid.svg' %}";
+        const eyeSlashPath = "{% static 'images/eye-slash-solid.svg' %}";
+
+        const returnloginbutton = document.getElementById("return_login_button");
+
+        returnloginbutton.addEventListener("click", function () {
+            window.location.href = "{% url 'login' %}";
+        });
+    </script>
+
+    <script src="{% static 'javascript/register.js' %}"></script>
+
+</body>
+</html>

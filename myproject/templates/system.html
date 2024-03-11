@@ -1,0 +1,808 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<!-- 台灣繁體中文 -->
+<html lang="zh-TW">
+<head>
+    <!-- Unicode字符集 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- table -->
+    <!-- <link rel="stylesheet" type="text/css" href="systemtest.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-colresizable@1.0.1/dist/colResizable.min.css"> -->
+
+
+
+    <title>倉管系統-倉庫畫面</title>
+
+    <style>
+
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f0f0; /* Optional background color */
+      }
+
+      .Home {
+        width: 1600px; height: 800px; 
+        position: relative; 
+        background: #A1C1FF;
+      }
+
+      .Home_2{
+        width: 750px; height: 750px; 
+        left: 825px; top: 25px; 
+        position: absolute; 
+        background: #BAE1FF;
+      }
+      
+      .data_label_font{
+        color: black; 
+        font-size: 32px; 
+        font-family: Inter; 
+        font-weight: 700; 
+        word-wrap: break-word;
+        position: absolute;
+      }
+
+      #new_item_data_label_pos{
+        width: 200px; height: 40px; 
+        left: 50px; 
+        top: 50px; 
+      }
+
+      #update_item_data_label_pos{
+        width: 200px; height: 40px; 
+        left: 50px; 
+        top: 280px; 
+      }
+
+      #delete_item_data_label_pos{
+        width: 580px; height: 40px; 
+        left: 50px; 
+        top: 510px; 
+      }
+
+
+
+
+
+
+
+      #warehouse_search_list_label_pos{
+        width: 200px; height: 40px; 
+        left: 850px; 
+        top: 50px;
+      }
+
+      #warehouse_search_item_list_label_pos{
+        width: 580px; height: 40px; 
+        left: 850px; 
+        top: 510px;
+      }
+
+
+      #input_add_name{
+        width: 150px; height: 50px;
+      }
+
+      #input_add_firm{
+        width: 150px; height: 50px;
+      }
+
+      #input_add_price{
+        width: 100px; height: 50px;
+      }
+
+      #input_add_amount{
+        width: 100px; height: 50px;
+      }
+
+      #input_update_id{
+        width: 100px; height: 50px;
+      }
+
+      #input_update_name{
+        width: 150px; height: 50px;
+      }
+
+      #input_update_firm{
+        width: 150px; height: 50px;
+      }
+      
+      #input_update_price{
+        width: 100px; height: 50px;
+      }
+
+      #input_update_amount{
+        width: 100px; height: 50px;
+      }
+
+
+      #input_delete_id{
+        width: 100px; height: 50px;
+      }
+
+      #input_delete_name{
+        width: 150px; height: 50px;
+      }
+
+      #input_delete_firm{
+        width: 150px; height: 50px;
+      }
+
+
+
+      #input_search_id{
+        width: 100px; height: 50px;
+      }
+
+      #input_search_name{
+        width: 150px; height: 50px;
+      }
+
+      #input_search_firm{
+        width: 150px; height: 50px;
+      }
+
+      .input_label_font{
+        position: absolute; 
+        color: black; 
+        font-size: 24px; 
+        font-family: Inter; 
+        font-weight: 400; 
+        word-wrap: break-word;
+
+      }
+
+      .input_label_pos{
+        width: 55px; height: 40px; 
+        left: 0px; top: 0px;
+      }
+
+      .input_label_id_pos{
+        width: 90px; height: 40px; 
+        left: 0px; top: 4px;
+      }
+
+      .input_font{
+        background: #FEFEFE; 
+        font-size: 24px; 
+        font-family: Inter;
+        left: 0px; 
+        top: 40px; 
+        position: absolute; 
+      }
+
+      .group_height{
+        height: 90px;
+        position: absolute;
+      }
+
+
+      .button_pos{
+        position: absolute;
+        color: black;
+        font-size: 24px;
+        font-family: Inter;
+        font-weight: 400;
+        word-wrap: break-word;
+      }
+
+      .button_action {
+        border: none; /* 去掉按钮的外框 */
+        background-color: white;
+        text-align: center; 
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* 添加外阴影效果 */
+      }
+    
+      .button_action:hover {
+        background-color: #50D5FF; /* Green */
+        color: white;
+      }
+    
+      .button_action:active {
+        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.3); /* 添加内阴影效果 */
+      }
+
+
+      #button_add_item{
+        width: 120px; height: 40px; 
+        left: 50px; top: 220px;
+      }
+
+      #button_update_item{
+        width: 120px; height: 40px; 
+        left: 50px; top: 450px;
+      }
+
+      #button_delete_item{
+        width: 120px; height: 40px; 
+        left: 50px; top: 680px;
+      }
+
+      #button_search_all_item{
+        width: 170px; height: 40px; 
+        left: 1380px; top: 50px;         
+      }
+
+      #button_search_item{
+        width: 120px; height: 40px; 
+        left: 850px; top: 680px;   
+      }
+
+      #button_order_system{
+        width: 120px; height: 40px; 
+        left: 1295px; top: 710px;
+      }
+
+      #button_exit_system{
+        width: 120px; height: 40px; 
+        left: 1430px; top: 710px;
+      }
+
+
+        /* TABLE */
+
+      .test {
+        padding:10px;
+        width: 700px; height: 320px; left: 850px; top: 120px;
+        /*
+        height: 470px;
+        width: 1020px;
+        */
+        overflow: hidden;
+        border: 1px solid #b4b4b4;
+        background-color: blue;
+      }
+
+
+      table {
+        margin: 0 ;   /* 將表格置中 */
+        float: left;      /* 將表格靠左對齊 */
+      }
+
+
+      .div_maintb {
+        margin-left: 0;
+        padding-right:0px;
+        padding-left:0px;
+        width: 680px;
+        height: 300px;
+        /*overflow:scroll;*/
+        border: 1px solid #b4b4b4;
+        background-color: white;
+      }
+
+
+
+      .div_maintb table {
+        border-spacing: 0;
+      }
+
+
+
+      th,td {
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+
+
+
+      .div_maintb th {
+        //top:0;
+        background: #464646;
+        color: #b7b7b7;
+        width: 10px;
+        min-width: 10px;
+        padding: 6px;
+        outline: 1px solid #7a7a7a;
+      }
+
+
+
+      .div_maintb td {
+        padding: 6px;
+        outline: 1px solid #c3c3c3;
+      }
+
+        /*
+      .dataTable thead th.centered {
+        text-align: center;
+      }
+      */
+
+        /*
+      .dataTable thead th,td {
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+        */
+
+      .dataTable thead th.centered{
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+
+        .custom-swal-button {
+            background-color: #A1C1FF !important;
+            color: black !important;
+            font-size: 18px !important;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="Home" >
+      <div class="Home_2"></div>
+        <div id="new_item_data_label_pos"  class="data_label_font" >新增品項資料</div>
+        <div id="update_item_data_label_pos" class="data_label_font" >更新品項資料</div>
+        <div id="delete_item_data_label_pos" class="data_label_font" >刪除品項資料 (依ID/商品/廠商 擇一填寫)</div>
+
+        <!-- 新增品項資料 -->
+        <div class="group_height" style="left: 50px; top: 105px;">
+          <div class="input_label_font input_label_pos">商品:</div>
+          <input type="text" id="input_add_name" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 230px; top: 106px;">
+          <div class="input_label_font input_label_pos">廠商:</div>
+          <input type="text" id="input_add_firm" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 410px; top: 105px;">
+          <div class="input_label_font input_label_pos">單價:</div>
+          <input type="text" id="input_add_price" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 540px; top: 106px;">
+          <div class="input_label_font input_label_pos">數量:</div>
+          <input type="text" id="input_add_amount" class="input_font">
+        </div>
+
+        <!-- 更新品項資料 -->
+        <div class="group_height" style="left: 50px; top: 335px;">
+          <div class="input_label_font input_label_id_pos">ID:</div>
+          <input type="text" id="input_update_id" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 180px; top: 335px;">
+          <div class="input_label_font input_label_pos">商品:</div>
+          <input type="text" id="input_update_name" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 360px; top: 334px;">
+          <div class="input_label_font input_label_pos">廠商:</div>
+          <input type="text" id="input_update_firm" class="input_font">
+        </div>
+        
+        <div class="group_height" style="left: 540px; top: 334px;">
+          <div class="input_label_font input_label_pos">單價:</div>
+          <input type="text" id="input_update_price" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 670px; top: 335px;">
+          <div class="input_label_font input_label_pos">數量:</div>
+          <input type="text" id="input_update_amount" class="input_font">
+        </div>
+
+
+        <!-- 刪除品項資料 -->
+        <div class="group_height" style="left: 50px; top: 565px;">
+          <div class="input_label_font input_label_id_pos">ID:</div>
+          <input type="text" id="input_delete_id" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 180px; top: 565px;">
+          <div class="input_label_font input_label_pos">商品:</div>
+          <input type="text" id="input_delete_name" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 360px; top: 565px;">
+          <div class="input_label_font input_label_pos">廠商:</div>
+          <input type="text" id="input_delete_firm" class="input_font">
+        </div>
+
+
+        <!-- 倉庫列表 -->
+        <div id="warehouse_search_list_label_pos" class="data_label_font">倉庫搜尋列表</div>
+        <div id="warehouse_search_item_list_label_pos" class="data_label_font">搜尋品項資料 (依ID/商品/廠商 擇一填寫)</div>
+        
+        <div class="group_height" style="left: 850px; top: 565px;">
+          <div class="input_label_font input_label_id_pos">ID:</div>
+          <input type="text" id="input_search_id" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 980px; top: 565px;"> 
+          <div class="input_label_font input_label_pos">商品:</div>
+          <input type="text" id="input_search_name" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 1160px; top: 565px;">
+          <div class="input_label_font input_label_pos">廠商:</div>
+          <input type="text" id="input_search_firm" class="input_font">
+        </div>
+
+        <!-- TABLE -->
+        <div class="Rectangle10" style="width: 700px; height: 320px; left: 850px; top: 120px; position: absolute; background: #D9D9D9">
+
+          <div class="test">
+            <div id="table-container" class="div_maintb">
+                <table id="table" class="table table-bordered table-hover"> 
+                    <thead>
+                     <tr>
+                        <th class="centered">ID</th>
+                        <th class="centered">商品</th>
+                        <th class="centered">廠商</th>
+                        <th class="centered">單價</th>
+                        <th class="centered">數量</th>
+                     </tr>
+                    </thead> 
+                    <tbody>
+<!--                        {% for item in items %}-->
+<!--                        <tr class="item-row" data-firm="{{ item.item_firm }}">-->
+<!--                            <td>{{ item.item_id }}</td>-->
+<!--                            <td>{{ item.item_name }}</td>-->
+<!--                            <td>{{ item.item_firm }}</td>-->
+<!--                            <td>{{ item.item_price }}</td>-->
+<!--                            <td>{{ item.item_amount }}</td>-->
+<!--                        </tr>-->
+<!--                        {% empty %}-->
+<!--                        <tr>-->
+<!--                            <td colspan="5">No items found.</td>-->
+<!--                        </tr>-->
+<!--                        {% endfor %}-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- 按鈕 -->
+        <button id="button_add_item" class="button_action button_pos">新增品項</button>
+
+        <button id="button_update_item" class="button_action button_pos">更新品項</button>
+
+        <button id="button_delete_item" class="button_action button_pos">刪除品項</button>
+
+
+
+        <button id="button_search_all_item" class="button_action button_pos">列出所有品項</button>
+
+        <button id="button_search_item" class="button_action button_pos">搜尋品項</button>
+
+        <button id="button_order_system" class="button_action button_pos">訂單系統</button>
+
+        <button id="button_exit_system" class="button_action button_pos">退出系統</button>
+
+      </div>
+
+
+
+  <!-- Include jQuery and DataTables scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/jquery-colresizable@1.0.1/dist/colResizable.min.js"></script> -->
+<!--  <script type="text/javascript" src="{% static 'javascript/colResizable-1.6_source.js' %}"></script>-->
+
+  <script>
+    var dataTable;
+    var colResizableObj;
+    var table;
+
+    function colResizeDisable(){
+      /*
+      colResizableObj = $('#table').colResizable({ 
+          disable : true,
+      });
+      */
+    }
+    
+    function colResizeEnable(){
+      /*
+      colResizableObj = $("#table").colResizable({
+          liveDrag: true,
+          resizeMode: 'fit', 
+          openflex: true,
+      });
+      */
+  }
+
+    $(document).ready(function() {
+
+        $('#button_add_item').on('click', function() {
+            console.log("按了"); // 在浏览器控制台查看响应数据
+            // 获取 CSRF 令牌
+            var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
+            // 获取输入框中的值
+            var item_name = $('#input_add_name').val();
+            var item_firm = $('#input_add_firm').val();
+            var item_price = $('#input_add_price').val();
+            var item_amount = $('#input_add_amount').val();
+
+            // 构建表单数据
+            var formData = {
+                'action': 'add-item',
+                'item_name': item_name,
+                'item_firm': item_firm,
+                'item_price': item_price,
+                'item_amount': item_amount,
+            };
+
+            // 使用 jQuery 的 ajax 发送 POST 请求
+            $.ajax({
+                type: 'POST',
+                url: '/system/', // 替换为实际的 URL
+                data: formData,
+                success: function(data) {
+                    console.log(data);
+                    // 在此处可以处理成功后的操作，例如刷新列表等
+                },
+                headers: {
+                    'x-requested-with': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken') // 获取 CSRF token 的方法
+                }
+            });
+        });
+
+
+        $('#button_delete_item').on('click', function() {
+            console.log("按了"); // 在浏览器控制台查看响应数据
+            // 获取 CSRF 令牌
+            var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
+            // 获取输入框中的值
+            var delete_item_id = $('#input_delete_id').val();
+            var delete_item_name = $('#input_delete_name').val();
+            var delete_item_firm = $('#input_delete_firm').val();
+
+            // 构建表单数据
+            var formData = {
+                'action': 'delete-item',
+                'delete_item_id': delete_item_id,
+                'delete_item_name': delete_item_name,
+                'delete_item_firm': delete_item_firm,
+            };
+
+            // 使用 jQuery 的 ajax 发送 POST 请求
+            $.ajax({
+                type: 'POST',
+                url: '/system/', // 替换为实际的 URL
+                data: formData,
+                success: function(data) {
+                    console.log(data);
+                    // 在此处可以处理成功后的操作，例如刷新列表等
+                            // 在成功响应时显示SweetAlert通知
+
+                     Swal.fire({
+                        icon: 'success',
+                        title: '更新成功',
+                        text: '商品已成功更新。',
+                        showConfirmButton: true, // 显示确认按钮
+                        confirmButtonText: '繼續', // 按钮上的文本
+                        customClass: {
+                            confirmButton: 'custom-swal-button',
+                        },
+                    });
+
+
+                },
+                headers: {
+                    'x-requested-with': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken') // 获取 CSRF token 的方法
+                }
+            });
+        });
+
+
+        $('#button_update_item').on('click', function() {
+            console.log("按了"); // 在浏览器控制台查看响应数据
+            // 获取 CSRF 令牌
+            var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
+            // 获取输入框中的值
+            var update_item_id = $('#input_update_id').val();
+            var update_item_name = $('#input_update_name').val();
+            var update_item_firm = $('#input_update_firm').val();
+            var update_item_price = $('#input_update_price').val();
+            var update_item_amount = $('#input_update_amount').val();
+
+            // 构建表单数据
+            var formData = {
+                'action': 'update-item',
+                'update_item_id': update_item_id,
+                'update_item_name': update_item_name,
+                'update_item_firm': update_item_firm,
+                'update_item_price': update_item_price,
+                'update_item_amount': update_item_amount,
+            };
+
+            // 使用 jQuery 的 ajax 发送 POST 请求
+            $.ajax({
+                type: 'POST',
+                url: '/system/', // 替换为实际的 URL
+                data: formData,
+                success: function(data) {
+                    console.log(data);
+                    // 在此处可以处理成功后的操作，例如刷新列表等
+                },
+                headers: {
+                    'x-requested-with': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken') // 获取 CSRF token 的方法
+                }
+            });
+        });
+
+
+
+
+        table = $('#table').DataTable({
+            columns: [
+            { data: 'item_id', className: 'checkbox' },
+            { data: 'item_name' },
+            { data: 'item_firm' },
+            { data: 'item_price' },
+            { data: 'item_amount' }
+            ],
+            
+            //scrollX: true, // Enable horizontal scrolling
+            language: {
+                emptyTable: "表格中沒有資料",
+                info: "顯示 _START_ 到 _END_ 筆記錄，總共 _TOTAL_ 筆",
+                infoEmpty: "沒有記錄可顯示",
+                infoFiltered: "(從 _MAX_ 筆記錄中過濾)",
+                infoPostFix: "",
+                lengthMenu: "顯示 _MENU_ 筆記錄",
+                loadingRecords: "載入中...",
+                processing: "處理中...",
+                search: "自訂義搜尋：",
+                searchPlaceholder: "輸入搜尋關鍵字",
+                zeroRecords: "找不到符合的記錄",
+                paginate: {
+                        first: "首頁",
+                        previous: "上一頁",
+                        next: "下一頁",
+                        last: "末頁"
+                },
+            },
+
+          fixedHeader: true,
+          searching: false, // 顯示搜尋
+          bPaginate: true, // 顯示換頁
+          info:	true, // 顯示資訊
+          //scrollY: 'auto', // 调整垂直滚动的高度
+          scrollY: "168px",
+          scrollCollapse: true,
+
+          lengthMenu: [5,10,20],
+
+          columnDefs: [
+              { targets: [0, 1, 2], width: '50px' },
+              {
+                targets: [1, 2], // 第二列和第三列
+                render: function(data, type, row) {
+                  if (type === 'display' && data.length > 10) {
+                    const lines = [];
+                    let currentLine = '';
+                    for (let i = 0; i < data.length; i++) {
+                      currentLine += data[i];
+                      if (currentLine.length >= 10 || i === data.length - 1) {
+                        lines.push(currentLine);
+                        currentLine = '';
+                      }
+                    }
+                    return lines.join('<br>');
+                  }
+                  return data;
+                }
+              }
+            ],
+
+          });
+
+        // 当表单提交时
+        $('#button_search_all_item').on('click', function() {
+                //$('#table').DataTable().destroy();  // 销毁旧的 DataTable
+                /*
+                var dataTable = $('#table').DataTable({
+                columns: [
+                    { data: 'item_id', className: 'checkbox' },
+                    { data: 'item_name' },
+                    { data: 'item_firm' },
+                    { data: 'item_price' },
+                    { data: 'item_amount' }
+                ]
+            });
+            */
+            var formData = ''; // 获取表单数据
+            fetch('/system/?' + formData, {
+                method: 'GET', // 请求方法
+                headers: {
+                    'x-requested-with': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json()) // 解析JSON响应数据
+            .then(data => {
+                // 更新表格内容
+                //console.log(data); // 在浏览器控制台查看响应数据
+                //updateTable(data);
+                // 更新 DataTable
+                //$('#table').DataTable().destroy();  // 销毁旧的 DataTable
+                //$('#table').DataTable();  // 重新初始化 DataTable
+                // 插入新数据到 DataTable
+                console.log(data); // 在浏览器控制台查看响应数据
+                table.clear().draw();
+                data.forEach(item => {
+                    table.row.add(item).draw(false);
+                });
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+        });
+
+
+        // 點擊第一個欄位觸發事件
+        $('#table tbody').on('click', 'td.checkbox', function() {
+            console.log('第一個欄位按下')
+            var rowData = table.row($(this).closest('tr')).data();
+            console.log('Clicked row data:', rowData);
+            // 在這裡您可以使用 rowData 來顯示整行的資訊，例如彈出一個提示框或將資訊顯示在頁面上
+        });
+
+          colResizeDisable();
+          colResizeEnable();
+        //table.columns.adjust(); // Automatically adjust column widths
+
+    });
+
+        //2023 08 29 add
+        var logoutUrl = "{% url 'logout' %}";
+        $('#button_exit_system').on('click', function() {
+            window.location.href = logoutUrl;
+            //table.clear().draw();
+        });
+
+
+    // 获取 CSRF token 的函数
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+  </script>
+
+</body>
+</html>

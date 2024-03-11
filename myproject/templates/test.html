@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='zh'>
+<head>
+<meta charset="UTF-8">
+    <title>test List</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="data:">
+    <link rel="stylesheet" href="{% static 'EuclidSquare-Regular-WebS.woff' %}">
+    <link rel="stylesheet" href="{% static 'EuclidSquare-Medium-WebS.woff' %}">
+</head>
+<body>
+    <h2 class="ok">測試顯示圖片</h2>
+<div>
+  <img id="async-image" data-src="{% static 'images/S__107765764.gif' %}" />
+</div>
+<script>
+  // 等待页面加载完成后执行
+  window.addEventListener('load', function() {
+    // 获取异步加载的图片元素
+    var asyncImage = document.getElementById('async-image');
+
+    // 获取图片的 data-src 属性值
+    var imageUrl = asyncImage.getAttribute('data-src');
+
+    // 创建一个新的图片元素
+    var image = new Image();
+
+    // 图片加载完成后将其赋给异步加载的图片元素
+    image.onload = function() {
+      asyncImage.src = imageUrl;
+    };
+
+    // 设置新创建图片元素的 src 属性
+    image.src = imageUrl;
+  });
+</script>
+</body>
+</html>

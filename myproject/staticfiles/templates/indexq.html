@@ -1,0 +1,146 @@
+<!-- async_app/templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 这是一个Favicon链接标签，用于指定网页标签上显示的图标。 -->
+    <!-- rel 属性定义关系，"icon" 表示该图标是网站的图标。 -->
+    <!-- href 属性定义图标的路径。在这里，使用了 "data:," URL，这实际上是一个空的data URL。 -->
+    <!-- 这意味着在网页标签上不会显示任何图标，从而防止浏览器默认加载favicon。 -->
+    <link rel="icon" href="data:,">
+    <!-- 设置页面标题 -->
+    <title>Async Website</title>
+    <!-- 引入 jQuery 库 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 当文档加载完成后执行的函数
+        $(document).ready(function () {
+            // 初始化页面：显示初始数据
+            updateTableData('table1');
+            updateTableData('table2');
+
+            // 给更新按钮添加点击事件处理函数
+            $('.update-button').click(function () {
+                // 获取要更新的表的标识
+                const tableToUpdate = $(this).attr('data-table');
+                // 调用更新数据函数
+                updateTableData(tableToUpdate);
+            });
+
+            // 给新增数据按钮添加点击事件处理函数
+            $('.add-button').click(function () {
+                // 获取要更新的表的标识
+                const tableToUpdate = $(this).attr('data-table');
+                // 获取新数据输入框中的值
+                const new_data = $('#' + tableToUpdate + '-new-data').val();
+                // 调用新增数据函数
+                addNewData(tableToUpdate, new_data);
+            });
+        });
+
+        // 更新数据函数
+        function updateTableData(table) {
+            $.ajax({
+                url: '',
+                type: 'POST',
+                data: {
+                    'table_to_update': table,
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function (data) {
+                    // 更新对应表的数据显示
+                    $('#' + table + '-data').html(data.table_data);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // 新增数据函数
+        function addNewData(table, new_data) {
+            $.ajax({
+                url: '',
+                type: 'POST',
+                data: {
+                    'table_to_update': table,
+                    'new_data': new_data,
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function () {
+                    // 调用更新数据函数，并清空输入框
+                    //updateTableData(table);
+                    //$('#' + table + '-new-data').val('');
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+         <!-- //window.addEventListener('load', function() {
+        // 设置定时刷新，第一个参数是要执行的函数，第二个参数是刷新间隔时间（毫秒）
+        //setInterval(function() {
+            // 在这里可以执行你想要的操作，比如更新页面内容或者跳转到其他页面
+            //location.reload(); // 刷新当前页面
+            //updateTableData('table1');
+            //updateTableData('table2');
+        //}, 1000); // 5000毫秒，即5秒
+    //});
+
+    </script>
+</head>
+<body>
+    <!-- 表格1 -->
+    <table>
+        <thead>
+            <!-- 表格标题行 -->
+            <tr>
+                <th>Data for Table 1</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 表格数据行 -->
+            <tr>
+                <td id="table1-data"></td>
+            </tr>
+            <!-- 表格下方的新增数据输入和按钮 -->
+            <tr>
+                <td>
+                    <input type="text" id="table1-new-data" placeholder="新增數據1">
+                    <button class="add-button" data-table="table1">新增數據1</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- 表格1的更新按钮 -->
+    <button class="update-button" data-table="table1">更新表格1</button>
+
+    <!-- 表格2 -->
+    <table>
+        <thead>
+            <!-- 表格标题行 -->
+            <tr>
+                <th>Data for Table 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 表格数据行 -->
+            <tr>
+                <td id="table2-data"></td>
+            </tr>
+            <!-- 表格下方的新增数据输入和按钮 -->
+            <tr>
+                <td>
+                    <input type="text" id="table2-new-data" placeholder="新增數據2">
+                    <button class="add-button" data-table="table2">新增數據2</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- 表格2的更新按钮 -->
+    <button class="update-button" data-table="table2">更新表格2</button>
+
+    <!-- CSRF 令牌，用于防止跨站请求伪造攻击 -->
+    {% csrf_token %}
+</body>
+</html>

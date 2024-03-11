@@ -1,0 +1,122 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<!-- 台灣繁體中文 -->
+<html lang="zh-TW">
+<head>
+    <!-- Unicode字符集 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <title>倉管系統-登入畫面</title>
+
+    <style>
+        .message-red{
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 9999;  /* 设置一个较高的 z-index 值 */
+
+            display: none;
+            flex-direction: column;
+            align-items: center; /* 水平居中 */
+            justify-content: center; /* 垂直居中 */
+            position: fixed;
+            background-color: red;
+        }
+
+        .hide-button-container{
+            /* margin-top，margin-right，margin-bottom，和 margin-left */
+            margin: 10px 0px 10px 0px;
+            background-color: white;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+            z-index: 10000;
+            border: 2px solid gray;
+            transition: box-shadow 0.2s ease-in-out; /* 添加過渡效果 */
+        }
+
+       .hide-button-container:active{
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5); /* 內陰影效果 */
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="Home" >
+      <img class="Picture1" src="{% static 'images/picture_1.png' %}" />
+      <button id="register_button" >註冊</button>
+
+
+      <button id="togglePassword">
+        <img id="eyeIcon" src="{% static 'images/eye-slash-solid.svg' %}" >
+      </button>
+
+        <form method="post" action="">
+            {% csrf_token %}
+              <div class="input_user_pos" >
+                <div class="input_label" >帳號：</div>
+                  <input type="text" id="user" class="input_text" placeholder="請輸入帳號" name="username">
+              </div>
+
+              <div class="input_password_pos" >
+                <div class="input_label" >密碼：</div>
+                  <input type="password" id="password" class="input_text" placeholder="請輸入密碼" name="password">
+              </div>
+                <button id="login_button" type="submit" >登入</button>
+        </form>
+
+        <div id="error-message" class="message-red">
+            <p id="error-text">這是要隱藏的錯誤訊息Q1。</p>
+            <button id="hide-button1" class="hide-button-container">確定</button>
+        </div>
+
+    </div>
+
+    <script>
+        const eyeSolidPath = "{% static 'images/eye-solid.svg' %}";
+        const eyeSlashPath = "{% static 'images/eye-slash-solid.svg' %}";
+
+        const registerButton = document.getElementById("register_button");
+
+        registerButton.addEventListener("click", function () {
+            window.location.href = "{% url 'register' %}";
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var errorMessageElement = document.getElementById('error-message');
+            var errortextElement = document.getElementById('error-text');
+
+            var hideButton1 = document.getElementById('hide-button1');
+
+// 在此处判断是否有错误消息需要显示
+            if ('{{ form.login }}') {
+                //errorMessageElement.textContent = '{{ form.errors.username }}<br>' + '{{ form.errors.password1 }}<br>' + '{{ form.errors.password2 }}<br>';
+                error_text = '{{ form.login.error }}';
+                console.log(error_text);
+                errortextElement.innerHTML = error_text;
+                errorMessageElement.style.display = 'flex';  // 显示错误消息
+
+            }
+
+            // 設置按鈕的點擊事件，隱藏錯誤訊息
+            hideButton1.addEventListener('click', function() {
+                errorMessageElement.style.display = 'none';
+            });
+
+        });
+    </script>
+
+    <script src="{% static 'javascript/login.js' %}"></script>
+
+</body>
+</html>

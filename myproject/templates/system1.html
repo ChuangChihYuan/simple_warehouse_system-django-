@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    /*
+    $(document).ready(function() {
+        // 当表单提交时
+        $('form').on('submit', function(event) {
+            event.preventDefault(); // 阻止默认的表单提交行为
+
+            var formData = $(this).serialize(); // 获取表单数据
+            $.ajax({
+                type: 'GET',  // 使用 GET 请求
+                url: '/system/',  // 替换为实际的 URL
+                data: formData,
+                success: function(data) {
+                    // 更新表格内容
+                    console.log(data); // 在浏览器控制台查看响应数据
+                    updateTable(data); // data 已经是 JSON 格式的
+                },
+                headers: {
+                    'x-requested-with': 'XMLHttpRequest'
+                }
+            });
+        });
+    });
+    */
+
+$(document).ready(function() {
+    // 当表单提交时
+    $('form').on('submit', function(event) {
+        event.preventDefault(); // 阻止默认的表单提交行为
+
+        var formData = $(this).serialize(); // 获取表单数据
+        fetch('/system/?' + formData, {
+            method: 'GET', // 请求方法
+            headers: {
+                'x-requested-with': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json()) // 解析JSON响应数据
+        .then(data => {
+            // 更新表格内容
+            console.log(data); // 在浏览器控制台查看响应数据
+            updateTable(data);
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+    });
+});
+
+   function updateTable(data) {
+    var tableBody = '<table id="items-table">';
+    tableBody += '<tr>';
+    tableBody += '<th>ID</th>';
+    tableBody += '<th>Name</th>';
+    tableBody += '<th>Firm</th>';
+    tableBody += '<th>Price</th>';
+    tableBody += '<th>Amount</th>';
+    tableBody += '</tr>';
+
+    if (data.length === 0) {
+        tableBody += '<tr>';
+        tableBody += '<td colspan="5">No items found.</td>';
+        tableBody += '</tr>';
+    } else {
+        $.each(data, function(index, item) {
+            tableBody += '<tr>';
+            tableBody += '<td>' + item.item_id + '</td>';
+            tableBody += '<td>' + item.item_name + '</td>';
+            tableBody += '<td>' + item.item_firm + '</td>';
+            tableBody += '<td>' + item.item_price + '</td>';
+            tableBody += '<td>' + item.item_amount + '</td>';
+            tableBody += '</tr>';
+        });
+    }
+
+    tableBody += '</table>';
+    $('#table-container').html(tableBody);
+}
+</script>
+<script>
+$(document).ready(function() {
+    $('#add-item-button').on('click', function() {
+        // 获取 CSRF 令牌
+        var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
+        // 获取输入框中的值
+        var item_name = $('#input_add_item').val();
+        var item_firm = $('#input_add_firm').val();
+        var item_price = $('#input_add_price').val();
+        var item_amount = $('#input_add_amount').val();
+
+        // 构建表单数据
+        var formData = {
+            'item_name': item_name,
+            'item_firm': item_firm,
+            'item_price': item_price,
+            'item_amount': item_amount,
+        };
+
+        // 使用 jQuery 的 ajax 发送 POST 请求
+        $.ajax({
+            type: 'POST',
+            url: '/system/', // 替换为实际的 URL
+            data: formData,
+            success: function(data) {
+                console.log(data);
+                // 在此处可以处理成功后的操作，例如刷新列表等
+            },
+            headers: {
+                'x-requested-with': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken') // 获取 CSRF token 的方法
+            }
+        });
+    });
+});
+
+    // 获取 CSRF token 的函数
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+</script>
+
+</head>
+<body>
+    <h2>歡迎來到系統，{{ request.user }}！</h2>
+    <a href="{% url 'logout' %}">Logout</a>
+
+<!--    &lt;!&ndash; 添加一个搜索表单 &ndash;&gt;-->
+<!--    <form>-->
+<!--        <label for="search_firm">Search by Firm:</label>-->
+<!--        <input type="text" id="search_firm">-->
+<!--        <button type="button" onclick="filterItems()">Search</button>-->
+<!--    </form>-->
+
+
+        <!-- 添加一个搜索表单 -->
+    <form id="search-form" method="get">
+        <label for="search_firm">Search by Firm:</label>
+            <input type="text" name="search_firm" value="{% if search_firm %}{{ search_firm }}{% endif %}">
+        <button type="submit">Search</button>
+    </form>
+
+    <h1>Items List</h1>
+    <!-- 表格显示数据 -->
+    <div id="table-container">
+        <table id="items-table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Firm</th>
+                <th>Price</th>
+                <th>Amount</th>
+            </tr>
+            {% for item in items %}
+            <tr class="item-row" data-firm="{{ item.item_firm }}">
+                <td>{{ item.item_id }}</td>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.item_firm }}</td>
+                <td>{{ item.item_price }}</td>
+                <td>{{ item.item_amount }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No items found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+        <!-- 新增品項資料 -->
+        <div class="group_height" style="left: 50px; top: 105px;">
+          <div class="input_label_font input_label_pos">商品:</div>
+          <input type="text" id="input_add_item" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 230px; top: 106px;">
+          <div class="input_label_font input_label_pos">廠商:</div>
+          <input type="text" id="input_add_firm" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 410px; top: 105px;">
+          <div class="input_label_font input_label_pos">單價:</div>
+          <input type="text" id="input_add_price" class="input_font">
+        </div>
+
+        <div class="group_height" style="left: 540px; top: 106px;">
+          <div class="input_label_font input_label_pos">數量:</div>
+          <input type="text" id="input_add_amount" class="input_font">
+        </div>
+
+        <button id="add-item-button">新增商品</button>
+
+</body>
+</html>

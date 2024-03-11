@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User List</title>
+</head>
+<body>
+    <h1>User List</h1>
+    <ul>
+        {% for user in users %}
+            <li>ID: {{ user.id }}, Account: {{ user.account }}, Password: {{ user.password }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add User</h2>
+    <form method="post" action="{% url 'add_user' %}">
+        {% csrf_token %}
+        <label for="account">Account:</label>
+        <input type="text" name="account" required><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required><br>
+        <button type="submit">Add User</button>
+    </form>
+</body>
+</html>

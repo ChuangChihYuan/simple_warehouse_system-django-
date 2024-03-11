@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- 台灣繁體中文 -->
+<html lang="zh-TW">
+<head>
+    <!-- Unicode字符集 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <title>倉管系統-登入畫面</title>
+
+</head>
+<body>
+
+    <div class="Home" >
+      <img class="Picture1" src="{% static 'images/picture_1.png' %}" />
+      <button id="register_button" >註冊</button>
+
+
+      <button id="togglePassword">
+        <img id="eyeIcon" src="{% static 'images/eye-slash-solid.svg' %}" >
+      </button>
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+              <div class="input_user_pos" >
+                <div class="input_label" >帳號：</div>
+                  <input type="text" id="user" class="input_text" placeholder="請輸入帳號">
+              </div>
+
+              <div class="input_password_pos" >
+                <div class="input_label" >密碼：</div>
+                  <input type="password" id="password" class="input_text" placeholder="請輸入密碼">
+              </div>
+                <button id="login_button" >登入</button>
+        </form>
+
+    </div>
+
+    <script>
+        const eyeSolidPath = "{% static 'images/eye-solid.svg' %}";
+        const eyeSlashPath = "{% static 'images/eye-slash-solid.svg' %}";
+
+        const registerButton = document.getElementById("register_button");
+
+        registerButton.addEventListener("click", function () {
+            window.location.href = "{% url 'register' %}";
+        });
+
+    </script>
+
+    <script src="{% static 'javascript/login.js' %}"></script>
+
+</body>
+</html>

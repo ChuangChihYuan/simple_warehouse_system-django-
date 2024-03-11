@@ -1,0 +1,8 @@
+body{
+    font-family: sans-serif; /* 使用系统默认的无衬线字体 */
+    background-color : aqua;
+}
+
+.ok {
+    color: blue;
+}

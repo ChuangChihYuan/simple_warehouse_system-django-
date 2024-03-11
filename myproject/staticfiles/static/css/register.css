@@ -1,0 +1,151 @@
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0; /* Optional background color */
+  }
+
+  .Home {
+    width: 1000px;
+    height: 400px;
+    position: relative;
+    background: #A1C1FF;
+  }
+
+  .Picture1 {
+    width: 443px; 
+    height: 353px; 
+    left: 21px; 
+    top: 24px; 
+    position: absolute;
+  }
+
+    /*返回登入 按鈕*/
+  .button_return_login_pos {
+    width: 200px; 
+    height: 50px; 
+    left: 522px; 
+    top: 296px; 
+    border: none; /* 去掉按钮的外框 */
+    background-color: white;
+    position: absolute;
+    text-align: center; 
+    color: black; 
+    font-size: 32px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* 添加外阴影效果 */
+  }
+
+  .button_return_login_pos:hover {
+    background-color: #50D5FF; /* Green */
+    color: white;
+  }
+
+  .button_return_login_pos:active {
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.3); /* 添加内阴影效果 */
+  }
+
+    /*申請註冊 按鈕*/
+  .button_apply_register_pos {
+    width: 200px; 
+    height: 50px; 
+    left: 743px; 
+    top: 295px; 
+    border: none; /* 去掉按钮的外框 */
+    background-color: white;
+    position: absolute;
+    text-align: center; 
+    color: black; 
+    font-size: 32px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* 添加外阴影效果 */
+  }
+
+  .button_apply_register_pos:hover {
+    background-color: #50D5FF; /* Green */
+    color: white;
+  }
+
+  .button_apply_register_pos:active {
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.3); /* 添加内阴影效果 */
+  }
+
+    /*輸入框*/
+  .input_text {
+    width: 314px; 
+    height: 50px; 
+    left: 176px; 
+    top: 10px; 
+    position: absolute; 
+    background: white;
+    font-size: 32px; 
+    font-family: Inter; 
+    font-weight: 400; 
+  }
+
+/* 初始状态下的 placeholder 样式 */
+  .input_text::placeholder {
+        color: gray; /* 设置蓝色 */
+  }
+
+/* 用户输入时的样式 */
+    .input_text:focus {
+        color: black; /* 设置黑色 */
+  }
+
+  .input_label {
+    width: 191px; 
+    left: 0px; 
+    top: 15px; 
+    position: absolute; 
+    text-align: center; 
+    color: black; 
+    font-size: 32px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    word-wrap: break-word;
+  }
+
+  .input_create_user_pos {
+    width: 502px; 
+    height: 69px; 
+    left: 481px; 
+    top: 24px; 
+    position: absolute;
+  }
+
+  .input_create_password_pos {
+    width: 502px; 
+    height: 69px; 
+    left: 481px; 
+    top: 114px; 
+    position: absolute;
+  }
+
+  .input_check_password_pos {
+    width: 502px; 
+    height: 69px; 
+    left: 481px; 
+    top: 204px; 
+    position: absolute;
+  }
+
+  #togglePassword {
+    border: none;
+    background-color: #A1C1FF;
+    left: 572px; 
+    top: 182px;
+    position: absolute;
+    z-index: 9999; /* 设置一个较高的z-index值 */
+}
+
+  #eyeIcon{
+    width: 30px; 
+    height: auto;
+  }
